@@ -45,3 +45,16 @@ btrfs quota disable /
 ```
 
 If you use `timeshift` you also need to disable `Settings > Users > Enable BTRFS qgroups` too, since `timeshift` seems to switch it back on later.
+
+## Restore from btrfs snapshot broke docker
+
+Docker use btrfs as storage driver when the backing filesystem is btrfs by default. This mean docker will use btrfs subvolumes for stuffs. When we restore from snapshot at `/` all the subvolumes that was created by docker will be gone (from docker perspective, those subvolumes still exist in btrfs filesystems). To save ourself from headache, we can switch to overlay2 which use overlayfs instead.
+
+Add this to `/etc/docker/daemon.json`.
+
+```
+{
+    "storage-driver": "overlay2",
+    ...
+}
+```
