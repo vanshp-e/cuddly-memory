@@ -58,3 +58,9 @@ Add this to `/etc/docker/daemon.json`.
     ...
 }
 ```
+
+# Alder lake cpu cause pulseaudio to crash in kernel below 5.16
+
+Seems to be a problem with driver or something.
+
+Add `i915.force_probe` to `GRUB_CMDLINE_LINUX_DEFAULT` at `/etc/default/grub`
